@@ -1,0 +1,42 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Oswald:400&display=swa);
+
+body * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("../images/fondo.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body,
+html,
+#app,
+main {
+    height: 100%;
+    margin: 0;
+}
+
+/* Carousel styling */
+#introCarousel,
+.carousel-inner,
+.carousel-item,
+.carousel-item.active {
+    height: 100vh;
+}
+
+/* Login */
+.fondoLogin {
+    height: calc(100% - 75px);
+    background-image: url("../images/fondoLogin.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#player {
+    width: 100%;
+}
