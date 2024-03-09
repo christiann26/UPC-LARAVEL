@@ -50,7 +50,7 @@
                         </div>
                         <div class="input-group">
                             <input id="password-confirm" type="password" class="input--style-3" name="password_confirmation"
-                                required autocomplete="new-password" autocomplete="Confirmar contraseña">
+                                required autocomplete="new-password" placeholder="Confirmar contraseña">
                         </div>
                         <div class="p-t-10">
                             <button type="submit" class="btn rounded-pill fs-5"
