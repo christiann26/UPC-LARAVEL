@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('cartas', function (Blueprint $table) {
             $table->id(); // Crea una columna de tipo 'id'
+            $table->string('photo'); // Crea una columna de tipo 'string' llamada 'photo'
             $table->string('nombre'); // Crea una columna de tipo 'string' llamada 'nombre'
-            $table->string('roll'); // Crea una columna de tipo 'string' llamada 'roll'
+            $table->string('role'); // Crea una columna de tipo 'string' llamada 'rol'
             $table->integer('coste_elixir'); // Crea una columna de tipo 'integer' llamada 'coste_elixir'
             $table->timestamps(); // Crea columnas 'created_at' y 'updated_at' para el control de fecha y hora de creación y actualización
             $table->softDeletes(); // Crea una columna 'deleted_at' para el soft delete

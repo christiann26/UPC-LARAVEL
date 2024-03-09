@@ -28,13 +28,13 @@ class UserFactory extends Factory
         $partidas_perdidas = $this->faker->numberBetween(0, $partidas_jugadas - $partidas_ganadas);
         $partidas_empatadas = $partidas_jugadas - $partidas_ganadas - $partidas_perdidas;
 
-        $user = fake()->userName();
-
+        $userName = fake()->userName();
+        
         return [
-            'name' => $user,
+            'name' => $userName,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => $user,
+            'password' => $userName,
             'partidas_jugadas' => $partidas_jugadas,
             'partidas_ganadas' => $partidas_ganadas,
             'partidas_empatadas' => $partidas_empatadas,

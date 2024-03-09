@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('eventos', function (Blueprint $table) {
             $table->id(); // Crea una columna de tipo 'id'
+            $table->unsignedBigInteger('user_id');
             $table->string('nombre'); // Crea una columna de tipo 'string' llamada 'nombre' para el nombre del evento
             $table->string('tipo'); // Crea una columna de tipo 'string' llamada 'tipo' para el tipo de evento
             $table->integer('numero_participantes')->nullable()->default(1); // Crea una columna de tipo 'integer' llamada 'numero_participantes' para el número de participantes, la hace nullable y establece un valor por defecto de 1
@@ -20,6 +21,8 @@ return new class extends Migration
             $table->string('duracion'); // Crea una columna de tipo 'string' llamada 'duracion' para la duración del evento
             $table->timestamps(); // Crea columnas 'created_at' y 'updated_at' para el control de fecha y hora de creación y actualización
             $table->softDeletes(); // Crea una columna 'deleted_at' para el soft delete
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

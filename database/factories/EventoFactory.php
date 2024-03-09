@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class EventoFactory extends Factory
         $fecha_inicio = $this->faker->dateTimeBetween('+1 day', '+1 month')->format('d/m/Y H:i');
 
         return [
+            'user_id' => User::all()->random()->id,
             'nombre' => $this->faker->name,
             'tipo' => $this->faker->randomElement(['Torneo', 'Dibujo']),
             'numero_participantes' => $this->faker->numberBetween(1, 999),

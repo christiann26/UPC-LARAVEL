@@ -126,9 +126,9 @@
             <div class="swiper">
                 <div id="wrapper1" class="swiper-wrapper">
                     <!-- Iteración sobre los datos de las cartas -->
-                    @foreach ($datos as $valor)
+                    @foreach ($cartas as $photo)
                         <div class="swiper-slide"
-                            style="background: linear-gradient(to top, #27270f99, #203a4300, #2c536400), url('../images/{{ $valor }}.webp') no-repeat 50% 50% / contain #d4ab30;">
+                            style="background: linear-gradient(to top, #27270f99, #203a4300, #2c536400), url({{ asset("images/$photo") }}) no-repeat 50% 50% / contain #d4ab30;">
                         </div>
                     @endforeach
                 </div>
@@ -158,7 +158,44 @@
                     <!-- Contenedor para el slider de equipo -->
                     <div class="swiper-container">
                         <!-- Slides del equipo -->
-                        <div id="wrapper2" class="swiper-wrapper"></div>
+                        <div class="swiper-wrapper">
+                            @if (isset($miembros))
+                                @foreach ($miembros as $miembro)
+                                    <div class="swiper-slide">
+                                        <div class="card">
+                                            <span class="bg"></span>
+                                            <span class="more"></span>
+                                            <figure class="photo"><img src="{{ asset('images/' . $miembro->photo) }}">
+                                            </figure>
+                                            <article class="text">
+                                                <p class="name">{{ $miembro->name }}</p>
+                                                <p class="role">{{ $miembro->role }}</p>
+                                                <p class="desc">{{ $miembro->desc }}</p>
+                                            </article>
+
+                                            <div class="social">
+                                                <span class="pointer"></span>
+                                                <div class="icons">
+                                                    <a class="icon" href="{{ $miembro->website }}" target="_blank"
+                                                        data-index="0"><img
+                                                            src="https://rafaelalucas.com/dailyui/6/assets/link.svg"></a>
+                                                    <a class="icon" href="{{ $miembro->email }}" target="_blank"
+                                                        data-index="1"><img
+                                                            src="https://rafaelalucas.com/dailyui/6/assets/email.svg"></a>
+                                                    <a class="icon" href="{{ $miembro->linkedin }}" target="_blank"
+                                                        data-index="2"><img
+                                                            src="https://rafaelalucas.com/dailyui/6/assets/linkedin.svg"></a>
+                                                    <a class="icon" href="{{ $miembro->dribbble }}" target="_blank"
+                                                        data-index="3"><img
+                                                            src="https://rafaelalucas.com/dailyui/6/assets/dribbble.svg"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+
+                        </div>
                     </div>
                     <!-- Paginación y botones de navegación del slider -->
                     <div class="swiper-pagination"></div>

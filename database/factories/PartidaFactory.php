@@ -17,17 +17,14 @@ class PartidaFactory extends Factory
      */
     public function definition(): array
     {
-        $usuario1 = User::factory()->create();
-
-        do {
-            $usuario2 = User::factory()->create();
-        } while ($usuario2->id === $usuario1->id); // Asegura que los IDs sean diferentes
+        $usuario1 = User::all()->random();
+        $usuario2 = User::all()->whereNotIn('id', [$usuario1->id])->random();
 
         return [
             'nombre' => $this->faker->unique()->name,
             'hora_partida' => $this->faker->date(),
             'usuario1_id' => $usuario1->id,
-            'usuario2_id' => $usuario2->id
+            'usuario2_id' => $usuario2->id,
         ];
     }
 }

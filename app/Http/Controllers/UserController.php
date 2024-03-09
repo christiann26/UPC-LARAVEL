@@ -12,6 +12,17 @@ class UserController extends Controller
     // use Notifiable;
 
     /**
+     * Función que mostrará una lista de todos los usuarios registrados en la aplicación
+     * en la cuál se podrá edit o eliminar el usuario.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function index()
+    {
+        return view('usuarios.index');
+    }
+
+    /**
      * Muestra la lista de usuarios ordenados por partidas ganadas.
      *
      * @return \Illuminate\View\View
@@ -20,6 +31,12 @@ class UserController extends Controller
     {
         $rankings = User::all()->sortByDesc('partidas_ganadas');
         return view('rankings.index', compact('rankings'));
+    }
+
+    public function list_users()
+    {
+        $usuarios = User::role('user')->get();
+        return view('usuarios.index', compact('usuarios'));
     }
 
     /**
@@ -44,7 +61,8 @@ class UserController extends Controller
         return view('rankings.index', compact('rankings'));
     }
 
-    public function perfil() {
+    public function perfil()
+    {
         return view('auth.perfil');
     }
 
@@ -110,5 +128,56 @@ class UserController extends Controller
         Auth::logout();
 
         return redirect()->route('index');
+    }
+
+    public function eliminarUsuario(User $usuario)
+    {
+        // Llamar al método delete() para eliminar el usuario
+        $usuario->delete();
+
+        return redirect()->route('usuarios');
+    }
+
+    /**
+     * Actualiza la información de un usuario en la base de datos.
+     *
+     * @param \Illuminate\Http\Request $request La solicitud HTTP entrante.
+     * @param \App\Models\User $usuario El usuario a actualizar.
+     * @return \Illuminate\Http\RedirectResponse Redirige al usuario a una ruta específica después de la actualización.
+     */
+    public function actualizarUsuario(Request $request, User $usuario)
+    {
+        // Se valida la solicitud entrante utilizando las reglas definidas.
+        $request->validate([
+            'name.' . $usuario->id => 'required|string|max:255',
+            'email.' . $usuario->id => 'required|string|email|max:255|unique:users,email,' . $usuario->id,
+            'password.' . $usuario->id => 'required|max:255'
+        ]);
+
+        // Se actualiza el usuario con la información proporcionada en la solicitud.
+        $usuario->update([
+            'email' => $request->input('email.' . $usuario->id),
+            'name' => $request->input('name.' . $usuario->id),
+            'password' => $request->input('password.' . $usuario->id),
+        ]);
+
+        // Se redirige al usuario después de la actualización.
+        return redirect()->route('usuarios');
+    }
+
+    public function buscar_usuario(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'exists:users,name'],
+        ], [
+            'name.required' => 'El campo jugador es obligatorio',
+            'name.exists' => 'El jugador no existe',
+        ]);
+
+        $name = $request->input('name');
+
+        $usuarios = User::where('name', $name)->get();
+
+        return view('usuarios.index', compact('usuarios'));
     }
 }

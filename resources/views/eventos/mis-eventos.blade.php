@@ -6,10 +6,12 @@
     <div class="container-fluid" style="padding: 110px 0px 20px">
         <div class="row m-0 justify-content-between">
             <div class="d-flex justify-content-center">
-                <div class="col-9 eventos text-center">
-                    <h1>
-                        MIS EVENTOS
-                    </h1>
+                <div class="col-9 eventos">
+                    <div class="row">
+                        <h1 class="text-center">
+                            MIS EVENTOS
+                        </h1>
+                    </div>
                     <div class="d-flex flex-wrap justify-content-center">
                         @if (count($eventos) == 0)
                             <h2 class="text-white">Todavía no tienes ningún evento creado</h2>
@@ -88,12 +90,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row justify-content-end">
-                                            <div style="height: 50px"></div>
-                                        </div>
                                     </div>
                                     <div class="overlay d-flex d-none position-absolute top-0 start-0 w-100 h-100 align-items-center justify-content-center rounded-5"
-                                        style="background-color: rgba(126, 126, 126, 0.59);">
+                                        style="background-color: rgba(126, 126, 126, 0.5);">
                                         <form action="{{ route('eventos.destroy', $evento['id']) }}" method="POST">
                                             @csrf
                                             @method('DELETE')

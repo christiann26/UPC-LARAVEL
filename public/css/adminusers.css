@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background: linear-gradient(#d30606, #850404);
+}
+
+tr {
+    border-collapse: collapse;
+    color: rgb(224, 59, 59);
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+table {
+    width: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+table tr td:first-child {
+    font-weight: bold;
+}
+
+thead {
+    background-color: #ff0000;
+    font-size: 1.1em;
+}
+
+.usuarios {
+    min-height: 800px;
+    padding: 60px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+}
+
+.filtros {
+    width: 300px;
+    height: 300px;
+    padding: 50px 60px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+}
+
+.usuarios h1 {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: rgb(255, 255, 255);
+    font-size: 80px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    line-height: 1;
+    margin-bottom: 40px;
+    letter-spacing: 4px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.filtros h2 {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: rgb(255, 255, 255);
+    font-size: 3.4em;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: 4px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+tbody tr:hover {
+    background: #f40317;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #f40303, 0 0 10px #f4030f, 0 0 20px #f40317,
+        0 0 10px #f4030f;
+}
+
+tbody button:hover {
+    background: #f40317;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px #f40303, 0 0 10px #f4030f, 0 0 20px #f40317,
+        0 0 10px #f4030f;
+}

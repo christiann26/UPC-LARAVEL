@@ -1,0 +1,151 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-image: url("../images/fondo_madera.png");
+}
+
+tr {
+    border-collapse: collapse;
+    color: #11438d;
+}
+.carta h1 {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #ff00fb;
+    font-size: 80px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    line-height: 1;
+    margin-bottom: 40px;
+    letter-spacing: 4px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+.p-0 {
+    color: white;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: center;
+    color: white;
+}
+
+table {
+    width: 100%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+table tr td:first-child {
+    font-weight: bold;
+}
+
+thead {
+    background-color: #03e9f4;
+    font-size: 1.1em;
+}
+
+.eventos-box {
+    width: 250px;
+    height: 150px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.eventos {
+    min-height: 800px;
+    padding: 60px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.eventos h1 {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #03e9f4;
+    font-size: 60px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    line-height: 1;
+    margin-bottom: 40px;
+    letter-spacing: 4px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.eventos-box h2 {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #03e9f4;
+    font-size: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: 0.5s;
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: 4px;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+.eventos-box h2:hover {
+    background: #036bf4;
+    color: #fff;
+    border-radius: 80px;
+    box-shadow: 0 0 5px #0377f4, 0 0 10px #0343f4, 0 0 20px #0380f4,
+        0 0 10px #035bf4;
+}
+
+.btn-hover {
+    width: 150px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    height: 40px;
+    text-align: center;
+    border: none;
+    background-size: 300% 100%;
+    border-radius: 50px;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-hover:hover {
+    background-position: 100% 0;
+    -o-transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-hover:focus {
+    outline: none;
+}
+
+.btn-hover.color-6 {
+    background-image: linear-gradient(
+        to right,
+        #009245,
+        #ddd121,
+        #00a8c5,
+        #d9e021
+    );
+    box-shadow: 0 4px 15px 0 rgba(83, 176, 57, 0.75);
+}

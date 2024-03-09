@@ -9,16 +9,27 @@
         <div class="row m-0 justify-content-between">
             <div class="d-flex justify-content-center">
                 <div class="col-9 eventos me-5">
-                    <h1>
-                        EVENTOS
-                    </h1>
+                    <div class="row d-flex">
+                        <div class="col-3">
+                            <h1>EVENTOS</h1>
+                        </div>
+                        <div class="col-5 p-3">
+                            @if (session('error'))
+                                <div class="alert alert-danger" role="alert">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
                     <div class="d-flex flex-wrap">
 
                         @foreach ($eventos as $evento)
                             <div class="evento-container col-4 p-3 position-relative">
                                 <div class="rounded-5 p-4"
                                     style="background-image: url('{{ asset('images/' . $evento['tipo'] . '.webp') }}'); background-size: cover;
-                        background-position: 50% 50%; opacity: 0.9; min-height: 236px">
+                        background-position: 50% 50%; opacity: 0.9; min-height: 236px"
+                                    rel="preload">
                                     <div class="row">
                                         <div class="col">
                                             <h2 class="text-white"
@@ -85,10 +96,46 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row justify-content-end">
+                                    <form class="row justify-content-end mt-4"
+                                        action="{{ route('eventos_inscribirse', $evento['id']) }}" method="post">
+                                        @csrf
+                                        @method('POST')
                                         <button
-                                            class="btn-hover color-6 col-4 btn rounded-pill text-white fw-bold btn-success">Inscribirse</button>
-                                    </div>
+                                            class="btn-hover color-6 col-4 btn rounded-pill text-white fw-bold btn-success"
+                                            type="submit">Inscribirse</button>
+                                    </form>
+                                    @role('admin')
+                                        <div class="overlay d-flex d-none position-absolute top-0 start-0 w-100 h-100 align-items-center justify-content-center rounded-5"
+                                            style="background-color: rgba(126, 126, 126, 0.5);">
+                                            <form action="{{ route('eventos.destroy', $evento['id']) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button type="submit" class="btn btn-danger me-3"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                        fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                        <path
+                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                    </svg></button>
+                                            </form>
+
+                                            <form action="{{ route('eventos.edit', $evento['id']) }}" method="GET">
+                                                @csrf
+                                                @method('GET')
+
+                                                <button type="submit" class="btn btn-success ms-3"><svg
+                                                        xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+                                                        fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                        <path fill-rule="evenodd"
+                                                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                    </svg></button>
+                                            </form>
+                                        </div>
+                                    @endrole
                                 </div>
                             </div>
                         @endforeach
@@ -103,8 +150,33 @@
                         <h2>MIS
                             EVENTOS</h2>
                     </a>
+                    <a href="{{ route('eventos_inscritos') }}" style="text-decoration: none; color: inherit;">
+                        <h2>EVENTOS INSCRITOS</h2>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@role('admin')
+    @section('scripts')
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var eventoContainers = document.querySelectorAll('.evento-container');
+
+                eventoContainers.forEach(element => {
+                    element.addEventListener('mouseover', function() {
+                        element.querySelector('.overlay').classList.toggle('d-none', false);
+                        element.querySelector('.overlay').classList.toggle('d-block', true);
+                    });
+
+                    element.addEventListener('mouseout', function() {
+                        element.querySelector('.overlay').classList.toggle('d-none', true);
+                        element.querySelector('.overlay').classList.toggle('d-block', false);
+                    });
+                });
+            });
+        </script>
+    @endsection
+@endrole

@@ -2,6 +2,8 @@
 
 @section('estilos')
     <link rel="stylesheet" href="{{ asset('css\crear-evento.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
 @endsection
 
 @section('content')
@@ -23,6 +25,7 @@
 
                 <!-- Nombre -->
                 <div class="input-group">
+                    <label for="tipo">Nombre del evento</label>
                     <input type="text" name="nombre" placeholder="Nombre del evento"
                         value="{{ isset($evento) ? $evento['nombre'] : '' }}" />
                 </div>
@@ -33,9 +36,8 @@
                 <!-- Fecha de inicio -->
                 <label for="tipo">Fecha y hora de inicio</label>
                 <div class="input-group">
-                    <input type="datetime-local" name="fecha_inicio" min="{{ date('Y-m-d\TH:i') }}"
-                        max="{{ date('Y-m-d\TH:i', strtotime('+1 month')) }}"
-                        value="{{ isset($evento) ? $fecha_objeto->format('Y-m-d H:i') : '' }}" />
+                    <input id="fecha_inicio" name="fecha_inicio" placeholder="00/00/0000 00:00"
+                        value="{{ isset($evento) ? $fecha_objeto->format('d/m/Y H:i') : '' }}" />
                 </div>
                 @error('fecha_inicio')
                     <div class="text-danger">{{ $message }}</div>
@@ -65,4 +67,23 @@
             </div>
         </form>
     </div>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configura el datepicker para el campo fecha_inicio
+            const fechaInicioInput = document.getElementById('fecha_inicio');
+            flatpickr(fechaInicioInput, {
+                locale: "es",
+                enableTime: true,
+                dateFormat: 'd/m/Y\ H:i',
+                minDate: new Date(),
+                maxDate: new Date().setMonth(new Date().getMonth() + 1),
+
+            });
+        });
+    </script>
 @endsection

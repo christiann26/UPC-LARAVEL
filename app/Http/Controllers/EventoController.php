@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
+
 class EventoController extends Controller
 {
     /**
@@ -43,18 +44,30 @@ class EventoController extends Controller
     public function mis_eventos()
     {
         // Busca al usuario autenticado
-        $usuario = User::find(Auth::user()->id);
+        $eventos = Evento::where('user_id', Auth::id())->get();
 
         // Si el usuario existe, obtiene sus eventos
-        if ($usuario) {
-            $eventos = $usuario->eventos;
+        if ($eventos) {
             return view('eventos.mis-eventos', compact('eventos'));
         } else {
             // Si el usuario no existe, muestra un mensaje de error
             return "Usuario no encontrado";
         }
     }
+    public function eventos_inscritos()
+    {
+        // Busca al usuario autenticado
+        $usuario = User::find(Auth::user()->id);
 
+        // Si el usuario existe, obtiene sus eventos
+        if ($usuario) {
+            $eventos = $usuario->eventos;
+            return view('eventos.eventos-inscritos', compact('eventos'));
+        } else {
+            // Si el usuario no existe, muestra un mensaje de error
+            return "Usuario no encontrado";
+        }
+    }
     /**
      * Muestra el formulario para crear un nuevo evento.
      *
@@ -78,18 +91,16 @@ class EventoController extends Controller
         $request->validate([
             'nombre' => ['required', 'string', 'max:40'],
             'tipo' => ['required', 'string'],
-            'fecha_inicio' => ['required', 'date'],
+            'fecha_inicio' => ['required', 'date_format:d/m/Y\ H:i'],
             'duracion' => ['required', 'string'],
         ]);
 
         // Crea un nuevo evento con los datos del formulario
         $evento = new Evento();
+        $evento->user_id = Auth::user()->id;
         $evento->nombre = $request->nombre;
         $evento->tipo = $request->tipo;
-
-        // Convierte la fecha de inicio al formato deseado
-        $fecha_inicio = Carbon::parse($request->fecha_inicio)->format('d/m/Y H:i');
-        $evento->fecha_inicio = $fecha_inicio;
+        $evento->fecha_inicio = $request->fecha_inicio;
         $evento->duracion = $request->duracion;
 
         // Guarda el evento en la base de datos
@@ -127,24 +138,21 @@ class EventoController extends Controller
         $request->validate([
             'nombre' => ['required', 'string', 'max:40'],
             'tipo' => ['required', 'string'],
-            'fecha_inicio' => ['required', 'date'],
+            'fecha_inicio' => ['required', 'date_format:d/m/Y\ H:i'],
             'duracion' => ['required', 'string'],
         ]);
 
         // Actualiza el evento con los datos del formulario
         $evento->nombre = $request->nombre;
         $evento->tipo = $request->tipo;
-
-        // Convierte la fecha de inicio al formato deseado
-        $fecha_inicio = Carbon::parse($request->fecha_inicio)->format('d/m/Y H:i');
-        $evento->fecha_inicio = $fecha_inicio;
+        $evento->fecha_inicio = $request->fecha_inicio;
         $evento->duracion = $request->duracion;
 
         // Guarda los cambios en el evento
         $evento->update();
 
         // Redirecciona después de actualizar el evento
-        return redirect()->route('mis_eventos');
+        return redirect()->route('eventos');
     }
 
     /**
@@ -155,12 +163,56 @@ class EventoController extends Controller
      */
     public function destroy(Evento $evento)
     {
-        // Desasocia el evento de los usuarios
-        $evento->usuarios()->detach();
-
         $evento->delete();
 
         // Redirecciona después de eliminar el evento
         return redirect()->back();
+    }
+    /**
+     * Desuscribe al usuario autenticado del evento especificado.
+     *
+     * @param  \App\Models\Evento  $evento
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function desuscribirse(Evento $evento)
+    {
+        // Obtiene al usuario autenticado
+        $usuario = Auth::user();
+
+        // Verifica si el usuario está inscrito en el evento
+        if ($evento->usuarios()->where('user_id', $usuario->id)->exists()) {
+            // Desasocia al usuario del evento
+            $evento->usuarios()->detach($usuario->id);
+
+            // Redirecciona después de desuscribirse
+            return redirect()->route('eventos_inscritos')->with('success', 'Te has desuscrito del evento correctamente.');
+        } else {
+            // Redirecciona con un mensaje de error si el usuario no está inscrito en el evento
+            return redirect()->route('eventos_inscritos')->with('error', 'No estás inscrito en este evento.');
+        }
+    }
+
+    /**
+     * Inscribir al usuario autenticado en un evento especificado.
+     *
+     * @param  \App\Models\Evento  $evento
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function inscribirse(Evento $evento)
+    {
+        // Obtiene al usuario autenticado
+        $usuario = Auth::user();
+
+        // Verifica si el usuario ya está inscrito en el evento
+        if ($evento->usuarios()->where('user_id', $usuario->id)->exists()) {
+            // Redirecciona con un mensaje de error si el usuario ya está inscrito en el evento
+            return redirect()->route('eventos')->with('error', 'Ya estás inscrito en este evento.');
+        } else {
+            // Asocia al usuario con el evento
+            $evento->usuarios()->attach($usuario->id);
+
+            // Redirecciona después de inscribirse
+            return redirect()->route('eventos_inscritos')->with('success', 'Te has inscrito en el evento correctamente.');
+        }
     }
 }

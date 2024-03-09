@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class CartaFactory extends Factory
 {
+    protected static $contador = 0;
+
     /**
      * Define the model's default state.
      *
@@ -17,8 +19,9 @@ class CartaFactory extends Factory
     public function definition(): array
     {
         return [
+            'photo' => self::$contador++ . ".webp",
             'nombre' => $this->faker->unique()->word,
-            'roll' => $this->faker->randomElement(['Luchador', 'Cuerpo a cuerpo', 'Tirador', 'Apoyo']),
+            'role' => $this->faker->randomElement(['Luchador', 'Cuerpo a cuerpo', 'Tirador', 'Apoyo']),
             'coste_elixir' => $this->faker->numberBetween(1, 10),
         ];
     }

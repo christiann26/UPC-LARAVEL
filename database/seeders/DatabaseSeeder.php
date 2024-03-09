@@ -16,10 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(RoleSeeder::class); // Llama a la clase RoleSeeder para crear los roles
+        $this->call(AdminSeeder::class); // Llama a la clase AdminSeeder para crear el usuario admin
+        User::factory(20)->create()->each(function ($user) {
+            $user->assignRole('user');
+        }); // Crea 10 registros de User utilizando el factory y los guarda en la base de datos
         Partida::factory(10)->create(); // Crea 10 registros de Partida utilizando el factory y los guarda en la base de datos
-        User::factory(10)->create(); // Crea 10 registros de User utilizando el factory y los guarda en la base de datos
-        Carta::factory(10)->create(); // Crea 10 registros de Carta utilizando el factory y los guarda en la base de datos
+        Carta::factory(29)->create(); // Crea 10 registros de Carta utilizando el factory y los guarda en la base de datos
         Evento::factory(10)->create(); // Crea 10 registros de Evento utilizando el factory y los guarda en la base de datos
         EventoUser::factory(10)->create(); // Crea 10 registros de EventoUser utilizando el factory y los guarda en la base de datos
+        $this->call(MemberSeeder::class); // Llama a la clase MemberSeeder para crear los miembros
     }
 }
